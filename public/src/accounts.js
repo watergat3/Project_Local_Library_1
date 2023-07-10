@@ -6,17 +6,18 @@ function sortAccountsByLastName(accounts) {
 return accounts.sort((accountA, accountB) => accountA.name.last > accountB.name.last ? 1 : -1);
 }
 
-function getTotalNumberOfBorrows(accounts, books) {
-let borrows = 0;
-
-for(let i = 0; i < books.length; i++){
-  for(let j = 0; j < books[i].borrows.length; j++) {
-    if(accounts.id == books[i].borrows[j].id){
-      borrows++;
-    }
-    }
-  }
-  return borrows;
+function getTotalNumberOfBorrows(account, books) {
+ const userId = account.id;
+  
+ let accumulator = 0;
+ const total = books.reduce((acc, book) => {
+   const borrowRecord = book.borrows;
+   const mapIds = borrowRecord.map((record) => record.id);
+   if (mapIds.includes(userId)) acc++;
+   return acc;
+ }, accumulator);
+ 
+ return total;
 }
 
 function getBooksPossessedByAccount(account, books, authors) {
